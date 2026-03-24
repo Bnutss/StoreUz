@@ -10,6 +10,7 @@ if PROJECT_ROOT not in sys.path:
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'StoreUz.settings')
 
 import django
+
 django.setup()
 
 from aiogram import Bot, Dispatcher
@@ -46,7 +47,7 @@ async def main():
     dp.include_router(start.router)
     dp.include_router(orders.router)
 
-    logger.info('Бот StoreUz запущен...')
+    logger.info('Бот TIMODA запущен...')
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

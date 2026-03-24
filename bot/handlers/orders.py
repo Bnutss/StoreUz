@@ -77,7 +77,7 @@ async def support(message: Message):
         '📞 <b>Поддержка TIMODA</b>\n\n'
         '🕐 Мы работаем: 9:00 — 21:00\n\n'
         '📩 Напишите нам:\n'
-        '• Telegram: @storeuzsupport\n'
+        '• Telegram: @timodasupport\n'
         '• Телефон: +998 71 123-45-67\n\n'
         'Мы ответим в течение 30 минут!'
     )
