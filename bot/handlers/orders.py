@@ -74,7 +74,7 @@ async def profile(message: Message, db_user):
 @router.message(F.text == '📞 Поддержка')
 async def support(message: Message):
     text = (
-        '📞 <b>Поддержка StoreUz</b>\n\n'
+        '📞 <b>Поддержка TIMODA</b>\n\n'
         '🕐 Мы работаем: 9:00 — 21:00\n\n'
         '📩 Напишите нам:\n'
         '• Telegram: @storeuzsupport\n'
