@@ -2,7 +2,9 @@
 
     <!-- Шапка -->
     <div class="topbar">
-        <div class="logo">TIMO<span>DA</span></div>
+        <div class="logo">
+            <img class="logo-img" src="/static/webapp/logo.PNG" alt="TIMODA">
+        </div>
         <button class="tb-btn" onclick="nav('catalog')">
             <svg width="20" height="20">
                 <use href="#ic-search"/>
@@ -76,6 +78,20 @@
         </div>
     </div>
     <div class="cats-row" id="home-cats"></div>
+
+    <!-- ══ БРЕНДЫ ══ -->
+    <div class="sec-hdr">
+        <div class="sec-title">Бренды</div>
+    </div>
+    <div class="brands-row">
+        <!-- Добавляй бренды сюда вручную -->
+        <div class="brand-chip" data-b="Nike" onclick="homeBrandSel('Nike',this)">Nike</div>
+        <div class="brand-chip" data-b="Adidas" onclick="homeBrandSel('Adidas',this)">Adidas</div>
+        <div class="brand-chip" data-b="Zara" onclick="homeBrandSel('Zara',this)">Zara</div>
+        <div class="brand-chip" data-b="H&M" onclick="homeBrandSel('H&M',this)">H&amp;M</div>
+        <div class="brand-chip" data-b="Levi's" onclick="homeBrandSel('Levi\'s',this)">Levi's</div>
+        <div class="brand-chip" data-b="Timoda" onclick="homeBrandSel('Timoda',this)">Timoda</div>
+    </div>
 
     <!-- ══ ФИЛЬТР ПО ПОЛУ ══ -->
     <div class="chips" id="home-g-chips">

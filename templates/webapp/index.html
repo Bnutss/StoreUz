@@ -131,6 +131,7 @@ function homeG(g, el) {
   el.classList.add('on');
   renderHome();
 }
+let homeBrand = '';
 function renderHome() {
   const parentCats = cats.filter(c => c.parent_id === null);
   document.getElementById('home-cats').innerHTML = parentCats.map(c => `
@@ -138,11 +139,18 @@ function renderHome() {
       <div class="cat-icon-wrap">${CAT_ICONS[c.slug] || '<svg width="22" height="22"><use href="#ic-grid"/></svg>'}</div>
       <div class="cat-nm">${c.name}</div>
     </div>`).join('');
-  let list = products.filter(p => !hG || p.gender === hG);
+
+  let list = products.filter(p => (!hG || p.gender === hG) && (!homeBrand || p.brand === homeBrand));
   const feat = list.filter(p => p.is_featured).slice(0, 6);
-  const nw = list.filter(p => !p.is_featured).slice(0, 6);
+  const nw   = list.filter(p => !p.is_featured).slice(0, 6);
   document.getElementById('home-featured').innerHTML = feat.map(pCard).join('') || '<div style="padding:20px 16px;color:var(--G3);font-size:12px">Нет товаров</div>';
-  document.getElementById('home-new').innerHTML = nw.map(pCard).join('') || '<div style="padding:20px 16px;color:var(--G3);font-size:12px">Нет товаров</div>';
+  document.getElementById('home-new').innerHTML      = nw.map(pCard).join('')   || '<div style="padding:20px 16px;color:var(--G3);font-size:12px">Нет товаров</div>';
+}
+function homeBrandSel(b, el) {
+  homeBrand = (homeBrand === b) ? '' : b;
+  document.querySelectorAll('.brand-chip').forEach(c => c.classList.toggle('on', c.dataset.b === homeBrand));
+  renderHome();
+  document.getElementById('home-featured').scrollIntoView({behavior:'smooth', block:'start'});
 }
 function navToCat(slug) {
   cC = slug;
