@@ -13,33 +13,29 @@
     <!-- ══ HERO ══ -->
     <div class="hero">
 
-        <!-- Левая часть: текст -->
-        <div class="hero-left">
+        <!-- Видео на всю ширину -->
+        <video class="hero-media" autoplay muted loop playsinline>
+            <source src="/static/webapp/hero.mp4" type="video/mp4">
+        </video>
+
+        <!-- Градиент поверх видео -->
+        <div class="hero-overlay"></div>
+
+        <!-- Текст поверх -->
+        <div class="hero-content">
             <div class="hero-tag">
                 <div class="hero-tag-dot"></div>
                 Новая коллекция
             </div>
             <div class="hero-title">
-                <strong>Весна</strong><br>
-                <em>— Лето 2026</em>
+                ВЕСНА — ЛЕТО
+                <em>2026</em>
             </div>
-            <div class="hero-sub">Скидки до <span>40%</span> на<br>избранные модели</div>
+            <div class="hero-sub">Скидки до <span>40%</span> на избранные модели</div>
             <button class="hero-cta" onclick="nav('catalog')">
-                Смотреть
-                <svg width="13" height="13">
-                    <use href="#ic-arrow-r"/>
-                </svg>
+                Смотреть коллекцию
+                <svg width="13" height="13"><use href="#ic-arrow-r"/></svg>
             </button>
-        </div>
-
-        <!-- Правая часть: видео -->
-        <div class="hero-right">
-            <video class="hero-media" id="hero-video" autoplay muted loop playsinline>
-                <source src="/static/webapp/hero.mp4" type="video/mp4">
-            </video>
-            <div class="hero-media-ph" id="hero-ph"></div>
-            <div class="hero-orb1"></div>
-            <div class="hero-orb2"></div>
         </div>
 
         <!-- Бейдж скидки -->
