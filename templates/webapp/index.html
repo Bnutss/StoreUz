@@ -536,11 +536,16 @@ let coStepN = 1, coDelivery = 'delivery', coPayment = 'cash';
 function openCheckout() {
   if (!cart.length) { toast('Корзина пуста'); return; }
   coStepN = 1; coDelivery = 'delivery'; coPayment = 'cash';
-  ['delivery', 'pickup'].forEach(t => document.getElementById('co-del-' + t).classList.toggle('on', t === 'delivery'));
-  ['cash', 'card', 'payme', 'click'].forEach(m => document.getElementById('co-pay-' + m).classList.toggle('on', m === 'cash'));
+  ['delivery','pickup'].forEach(t => document.getElementById('co-del-'+t).classList.toggle('on', t==='delivery'));
+  ['cash','card','payme','click'].forEach(m => document.getElementById('co-pay-'+m).classList.toggle('on', m==='cash'));
+  const el = n => document.getElementById(n);
+  if (el('co-addr'))    el('co-addr').value    = '';
+  if (el('co-phone'))   el('co-phone').value   = '';
+  if (el('co-comment')) el('co-comment').value = '';
+  if (el('co-btn'))     el('co-btn').disabled  = false;
   coShowStep(1);
-  document.getElementById('co-ov').classList.add('on');
-  document.getElementById('co-sheet').classList.add('on');
+  el('co-ov').classList.add('on');
+  el('co-sheet').classList.add('on');
 }
 
 function closeCheckout() {
@@ -550,54 +555,99 @@ function closeCheckout() {
 
 function coShowStep(n) {
   coStepN = n;
-  ['1', '2', '3'].forEach(i => {
-    document.getElementById('co-s' + i).classList.toggle('on', +i === n);
-    const dot = document.getElementById('cos-' + i);
-    dot.className = 'co-step';
-    if (+i === n) { dot.classList.add('on'); dot.textContent = i; }
-    else if (+i < n) { dot.classList.add('done'); dot.textContent = '✓'; }
-    else { dot.textContent = i; }
+
+  // страницы шагов
+  ['1','2','3'].forEach(i => {
+    document.getElementById('co-s'+i).classList.toggle('on', +i === n);
   });
+
+  // индикаторные точки
+  ['1','2','3'].forEach(i => {
+    const dot = document.getElementById('cos-'+i);
+    dot.className = 'co-step';
+    if (+i === n)    { dot.classList.add('on');   dot.textContent = i; }
+    else if (+i < n) { dot.classList.add('done'); dot.textContent = '✓'; }
+    else             {                            dot.textContent = i; }
+  });
+
+  // линии между точками
+  const l1 = document.getElementById('col-1');
+  const l2 = document.getElementById('col-2');
+  if (l1) l1.classList.toggle('done', n > 1);
+  if (l2) l2.classList.toggle('done', n > 2);
+
+  // прогресс-бар
+  const prog = document.getElementById('co-progress');
+  if (prog) prog.style.width = ['33%','66%','100%'][n-1];
+
+  // заголовок и подзаголовок
   const ttls = ['Доставка', 'Контакты', 'Оплата'];
-  document.getElementById('co-ttl').textContent = ttls[n - 1];
+  const subs = ['Шаг 1 из 3 — выберите способ получения', 'Шаг 2 из 3 — ваши данные', 'Шаг 3 из 3 — выберите оплату'];
+  const ttlEl = document.getElementById('co-ttl');
+  const subEl = document.getElementById('co-sub-ttl');
+  if (ttlEl) ttlEl.textContent = ttls[n-1];
+  if (subEl) subEl.textContent = subs[n-1];
+
+  // кнопка Назад
+  const backBtn = document.getElementById('co-back-btn');
+  if (backBtn) backBtn.style.display = n > 1 ? 'flex' : 'none';
+
+  // адрес — только при доставке
   if (n === 2) {
-    document.getElementById('co-addr-wrap').style.display = coDelivery === 'delivery' ? 'block' : 'none';
+    const aw = document.getElementById('co-addr-wrap');
+    if (aw) aw.style.display = coDelivery === 'delivery' ? 'block' : 'none';
   }
+
+  // прокрутить вверх
+  const sc = document.getElementById('co-scroll');
+  if (sc) sc.scrollTop = 0;
+
   coUpdateSum();
+}
+
+function coPrev() {
+  if (coStepN > 1) coShowStep(coStepN - 1);
 }
 
 function coDelSel(t) {
   coDelivery = t;
-  ['delivery', 'pickup'].forEach(x => document.getElementById('co-del-' + x).classList.toggle('on', x === t));
+  ['delivery','pickup'].forEach(x => document.getElementById('co-del-'+x).classList.toggle('on', x===t));
   coUpdateSum();
 }
 
 function coPaySel(m) {
   coPayment = m;
-  ['cash', 'card', 'payme', 'click'].forEach(x => document.getElementById('co-pay-' + x).classList.toggle('on', x === m));
+  ['cash','card','payme','click'].forEach(x => document.getElementById('co-pay-'+x).classList.toggle('on', x===m));
 }
 
 function coUpdateSum() {
-  const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const sub = cart.reduce((s,i) => s + i.price*i.qty, 0);
   const del = coDelivery === 'pickup' ? 0 : (sub >= 500000 ? 0 : 30000);
   const tot = sub + del;
-  document.getElementById('co-sum').innerHTML =
-    `<div class="co-sum-row"><span>Товары (${cart.reduce((s, i) => s + i.qty, 0)} шт)</span><span>${fmt(sub)}</span></div>` +
-    `<div class="co-sum-row"><span>Доставка</span><span>${del === 0 ? '<span style="color:var(--GRN);font-weight:600">Бесплатно</span>' : fmt(del)}</span></div>` +
+
+  const sumEl = document.getElementById('co-sum');
+  if (sumEl) sumEl.innerHTML =
+    `<div class="co-sum-row"><span>Товары (${cart.reduce((s,i)=>s+i.qty,0)} шт)</span><span>${fmt(sub)}</span></div>`+
+    `<div class="co-sum-row"><span>Доставка</span><span>${del===0?'<span style="color:var(--GRN);font-weight:600">Бесплатно</span>':fmt(del)}</span></div>`+
     `<div class="co-sum-tot"><span>Итого</span><span>${fmt(tot)}</span></div>`;
-  document.getElementById('co-btn-price').textContent = fmt(tot);
-  document.getElementById('co-btn-txt').textContent = coStepN === 3 ? 'Подтвердить заказ' : 'Далее';
+
+  const txtEl   = document.getElementById('co-btn-txt');
+  const priceEl = document.getElementById('co-btn-price');
+  if (txtEl)   txtEl.textContent   = coStepN === 3 ? 'Подтвердить заказ' : 'Далее';
+  if (priceEl) priceEl.textContent = fmt(tot);
 }
 
 async function coNext() {
   if (coStepN === 1) {
     coShowStep(2);
   } else if (coStepN === 2) {
-    if (coDelivery === 'delivery' && !document.getElementById('co-addr').value.trim()) {
-      tg.showAlert('Пожалуйста, укажите адрес доставки'); return;
+    const addr  = document.getElementById('co-addr');
+    const phone = document.getElementById('co-phone');
+    if (coDelivery === 'delivery' && !(addr && addr.value.trim())) {
+      alert('Пожалуйста, укажите адрес доставки'); return;
     }
-    if (!document.getElementById('co-phone').value.trim()) {
-      tg.showAlert('Пожалуйста, укажите номер телефона'); return;
+    if (!(phone && phone.value.trim())) {
+      alert('Пожалуйста, укажите номер телефона'); return;
     }
     coShowStep(3);
   } else {
@@ -606,24 +656,32 @@ async function coNext() {
 }
 
 async function coSubmit() {
-  const btn = document.getElementById('co-btn');
-  btn.disabled = true;
-  document.getElementById('co-btn-txt').textContent = 'Оформляем...';
-  document.getElementById('co-btn-price').textContent = '';
-  const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const btn     = document.getElementById('co-btn');
+  const txtEl   = document.getElementById('co-btn-txt');
+  const priceEl = document.getElementById('co-btn-price');
+  if (btn)     btn.disabled        = true;
+  if (txtEl)   txtEl.textContent   = 'Оформляем...';
+  if (priceEl) priceEl.textContent = '';
+
+  const sub = cart.reduce((s,i) => s + i.price*i.qty, 0);
   const del = coDelivery === 'pickup' ? 0 : (sub >= 500000 ? 0 : 30000);
+
+  const addr    = document.getElementById('co-addr');
+  const phone   = document.getElementById('co-phone');
+  const comment = document.getElementById('co-comment');
+
   try {
     const res = await fetch('/api/orders/create/', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        telegram_id: tg.initDataUnsafe?.user?.id || 0,
-        delivery_type: coDelivery,
-        delivery_address: coDelivery === 'delivery' ? document.getElementById('co-addr').value.trim() : '',
-        payment_method: coPayment,
-        phone: document.getElementById('co-phone').value.trim(),
-        comment: document.getElementById('co-comment').value.trim(),
-        delivery_cost: del,
+        telegram_id:      tg.initDataUnsafe?.user?.id || 0,
+        delivery_type:    coDelivery,
+        delivery_address: coDelivery==='delivery' ? (addr ? addr.value.trim() : '') : '',
+        payment_method:   coPayment,
+        phone:            phone   ? phone.value.trim()   : '',
+        comment:          comment ? comment.value.trim() : '',
+        delivery_cost:    del,
         items: cart.map(i => ({variant_id: i.vId, quantity: i.qty, price: i.price})),
       }),
     });
@@ -631,15 +689,17 @@ async function coSubmit() {
     if (data.ok) {
       cart = []; saveCart(); closeCheckout();
       toast('Заказ #' + data.order_id + ' оформлен!');
-      if (curPage === 'cart') renderCart();
+      if (curPage === 'cart')    renderCart();
       if (curPage === 'profile') renderProfile();
     } else {
-      tg.showAlert('Ошибка: ' + (data.error || 'Попробуйте ещё раз'));
-      btn.disabled = false; coUpdateSum();
+      alert('Ошибка: ' + (data.error || 'Попробуйте ещё раз'));
+      if (btn) btn.disabled = false;
+      coUpdateSum();
     }
   } catch (e) {
-    tg.showAlert('Ошибка соединения. Попробуйте ещё раз.');
-    btn.disabled = false; coUpdateSum();
+    alert('Ошибка соединения. Попробуйте ещё раз.');
+    if (btn) btn.disabled = false;
+    coUpdateSum();
   }
 }
 

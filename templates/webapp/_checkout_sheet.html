@@ -1,107 +1,143 @@
 <!-- ══════════ ОФОРМЛЕНИЕ ЗАКАЗА ══════════ -->
 <div class="overlay" id="co-ov" onclick="closeCheckout()"></div>
-<div class="sheet" id="co-sheet">
+<div class="sheet" id="co-sheet" style="max-height:100vh;height:92vh">
+
   <div class="sheet-pull"></div>
-  <div class="sheet-head">
+
+  <!-- Шапка -->
+  <div style="display:flex;align-items:center;padding:12px 16px 0;gap:10px;flex-shrink:0">
+    <!-- Кнопка НАЗАД (шаги 2 и 3) -->
+    <button id="co-back-btn" onclick="coPrev()"
+      style="display:none;width:36px;height:36px;border:none;background:var(--G1);cursor:pointer;color:var(--B);flex-shrink:0;align-items:center;justify-content:center">
+      <svg width="18" height="18"><use href="#ic-chevron-l"/></svg>
+    </button>
+    <!-- Заголовок -->
     <div style="flex:1">
-      <div class="sheet-ttl" id="co-ttl">Доставка</div>
-      <div class="co-steps">
-        <div class="co-step on" id="cos-1">1</div>
-        <div class="co-line"></div>
-        <div class="co-step" id="cos-2">2</div>
-        <div class="co-line"></div>
-        <div class="co-step" id="cos-3">3</div>
-      </div>
+      <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase" id="co-ttl">Доставка</div>
+      <div style="font-size:11px;color:var(--G4);margin-top:2px" id="co-sub-ttl">Шаг 1 из 3</div>
     </div>
-    <button class="sheet-x" onclick="closeCheckout()" style="align-self:flex-start;margin-left:14px;margin-top:2px">
+    <!-- Закрыть -->
+    <button class="sheet-x" onclick="closeCheckout()">
       <svg width="12" height="12"><use href="#ic-x"/></svg>
     </button>
   </div>
 
-  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+  <!-- Прогресс-бар -->
+  <div style="padding:12px 16px 0;flex-shrink:0">
+    <div style="height:3px;background:var(--G2);border-radius:2px;overflow:hidden">
+      <div id="co-progress" style="height:100%;background:var(--B);border-radius:2px;transition:width .35s ease;width:33%"></div>
+    </div>
+    <div class="co-steps" style="margin-top:10px">
+      <div class="co-step on" id="cos-1">1</div>
+      <div class="co-line" id="col-1"></div>
+      <div class="co-step" id="cos-2">2</div>
+      <div class="co-line" id="col-2"></div>
+      <div class="co-step" id="cos-3">3</div>
+    </div>
+  </div>
 
-    <!-- Шаг 1: Способ доставки -->
+  <div style="height:1px;background:var(--G2);margin-top:12px;flex-shrink:0"></div>
+
+  <!-- Контент шагов (скроллируется) -->
+  <div class="co-scroll" id="co-scroll">
+
+    <!-- Шаг 1: Доставка -->
     <div class="co-page on" id="co-s1">
       <div class="co-sec-lbl">Способ получения</div>
+
       <div class="opt-card on" id="co-del-delivery" onclick="coDelSel('delivery')">
-        <div class="opt-ic"><svg width="18" height="18"><use href="#ic-package"/></svg></div>
+        <div class="opt-ic"><svg width="20" height="20"><use href="#ic-package"/></svg></div>
         <div class="opt-text">
           <div class="opt-ttl">Доставка курьером</div>
-          <div class="opt-sub">По всему Узбекистану · 1–3 рабочих дня</div>
+          <div class="opt-sub">По всему Узбекистану · 1–3 рабочих дня<br><span style="color:var(--ORG);font-weight:600">30 000 сум</span> · Бесплатно от 500 000 сум</div>
         </div>
         <div class="opt-radio"></div>
       </div>
+
       <div class="opt-card" id="co-del-pickup" onclick="coDelSel('pickup')">
-        <div class="opt-ic"><svg width="18" height="18"><use href="#ic-home"/></svg></div>
+        <div class="opt-ic"><svg width="20" height="20"><use href="#ic-home"/></svg></div>
         <div class="opt-text">
           <div class="opt-ttl">Самовывоз</div>
-          <div class="opt-sub">Ташкент, ул. Амира Темура 1 · Бесплатно</div>
+          <div class="opt-sub">Ташкент, ул. Амира Темура 1<br><span style="color:var(--GRN);font-weight:600">Бесплатно</span></div>
         </div>
         <div class="opt-radio"></div>
       </div>
-      <div style="height:16px"></div>
     </div>
 
-    <!-- Шаг 2: Контакты и адрес -->
+    <!-- Шаг 2: Контакты -->
     <div class="co-page" id="co-s2">
       <div id="co-addr-wrap">
-        <div class="co-inp-lbl">Адрес доставки</div>
-        <textarea class="co-inp" id="co-addr" rows="2" placeholder="Город, улица, дом, квартира..."></textarea>
-        <div style="height:14px"></div>
+        <div class="co-sec-lbl">Адрес доставки</div>
+        <textarea class="co-inp" id="co-addr" rows="3" placeholder="Ташкент, Юнусабадский район, ул. Навои 15, кв. 42"></textarea>
       </div>
-      <div class="co-inp-lbl">Номер телефона</div>
-      <input class="co-inp" id="co-phone" type="tel" placeholder="+998 XX XXX XX XX">
-      <div style="height:14px"></div>
-      <div style="font-size:11px;color:var(--G4);margin-bottom:6px">Комментарий <span style="color:var(--G3)">(необязательно)</span></div>
-      <textarea class="co-inp" id="co-comment" rows="2" placeholder="Пожелания, время доставки..."></textarea>
-      <div style="height:16px"></div>
+
+      <div class="co-inp-lbl" style="margin-top:16px">Телефон для связи</div>
+      <input class="co-inp" id="co-phone" type="tel" placeholder="+998 90 123 45 67">
+
+      <div style="margin-top:16px;font-size:11px;color:var(--G4);margin-bottom:6px">
+        Комментарий <span style="color:var(--G3)">(необязательно)</span>
+      </div>
+      <textarea class="co-inp" id="co-comment" rows="2" placeholder="Пожелания по доставке, время, этаж..."></textarea>
     </div>
 
     <!-- Шаг 3: Оплата -->
     <div class="co-page" id="co-s3">
       <div class="co-sec-lbl">Способ оплаты</div>
+
       <div class="opt-card on" id="co-pay-cash" onclick="coPaySel('cash')">
-        <div class="opt-ic" style="font-size:20px">💵</div>
+        <div class="opt-ic">💵</div>
         <div class="opt-text">
-          <div class="opt-ttl">Наличными при получении</div>
-          <div class="opt-sub">Оплата курьеру или в пункте выдачи</div>
+          <div class="opt-ttl">Наличными</div>
+          <div class="opt-sub">Оплата курьеру или на пункте выдачи</div>
         </div>
         <div class="opt-radio"></div>
       </div>
+
       <div class="opt-card" id="co-pay-card" onclick="coPaySel('card')">
-        <div class="opt-ic" style="font-size:20px">💳</div>
+        <div class="opt-ic">💳</div>
         <div class="opt-text">
           <div class="opt-ttl">Карта при получении</div>
           <div class="opt-sub">Visa · Mastercard · Humo · UzCard</div>
         </div>
         <div class="opt-radio"></div>
       </div>
+
       <div class="opt-card" id="co-pay-payme" onclick="coPaySel('payme')">
         <div class="opt-ic" style="background:#00AAFF;border-color:#00AAFF;color:#fff;font-size:9px;font-weight:800;line-height:1.2;text-align:center">Pay<br>me</div>
         <div class="opt-text">
           <div class="opt-ttl">PayMe</div>
-          <div class="opt-sub">Быстрая онлайн-оплата</div>
+          <div class="opt-sub">Онлайн-оплата</div>
         </div>
         <div class="opt-radio"></div>
       </div>
+
       <div class="opt-card" id="co-pay-click" onclick="coPaySel('click')">
         <div class="opt-ic" style="background:#F58220;border-color:#F58220;color:#fff;font-size:9px;font-weight:800;letter-spacing:-.5px">CLICK</div>
         <div class="opt-text">
           <div class="opt-ttl">Click</div>
-          <div class="opt-sub">Онлайн-оплата через приложение</div>
+          <div class="opt-sub">Онлайн-оплата</div>
         </div>
         <div class="opt-radio"></div>
       </div>
-      <div style="height:16px"></div>
     </div>
 
+  </div><!-- /co-scroll -->
+
+  <!-- Подвал — ВСЕГДА ВИДЕН -->
+  <div style="flex-shrink:0;background:var(--W);border-top:1px solid var(--G2)">
+    <!-- Итог -->
+    <div style="padding:10px 16px 0" id="co-sum"></div>
+    <!-- Кнопка -->
+    <div style="padding:10px 16px calc(10px + var(--SB))">
+      <button id="co-btn" onclick="coNext()"
+        style="width:100%;height:54px;background:var(--B);color:#fff;border:none;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 20px;transition:opacity .2s">
+        <span id="co-btn-txt">Далее</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span id="co-btn-price" style="font-size:14px;font-weight:700"></span>
+          <svg width="16" height="16"><use href="#ic-arrow-r"/></svg>
+        </div>
+      </button>
+    </div>
   </div>
 
-  <div class="co-footer">
-    <div id="co-sum"></div>
-    <button class="btn-checkout" id="co-btn" onclick="coNext()">
-      <span id="co-btn-txt">Далее</span>
-      <span id="co-btn-price"></span>
-    </button>
-  </div>
 </div>
