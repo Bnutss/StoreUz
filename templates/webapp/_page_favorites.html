@@ -1,12 +1,34 @@
 <div class="page" id="page-favorites">
-  <div class="topbar"><div class="logo">Избранное</div></div>
+
+  <!-- Шапка -->
+  <div class="topbar">
+    <div class="logo">Избранное <span id="fav-count-badge" class="fav-count-badge" style="display:none"></span></div>
+  </div>
+
+  <!-- Сортировка (видна только когда есть товары) -->
+  <div class="fav-sort-row" id="fav-sort-row" style="display:none">
+    <button class="fav-sort-btn on" onclick="favSort('default',this)">По умолчанию</button>
+    <button class="fav-sort-btn" onclick="favSort('price_asc',this)">Дешевле</button>
+    <button class="fav-sort-btn" onclick="favSort('price_desc',this)">Дороже</button>
+    <button class="fav-sort-btn" onclick="favSort('discount',this)">Со скидкой</button>
+  </div>
+
+  <!-- Сетка товаров -->
   <div class="pgrid" id="fav-grid"></div>
+
+  <!-- Пустое состояние -->
   <div class="fav-empty" id="fav-empty" style="display:none">
-    <svg width="60" height="60"><use href="#ic-heart"/></svg>
-    <div style="font-size:16px;font-weight:700;letter-spacing:.3px">Избранное пусто</div>
-    <div style="font-size:13px;color:var(--G4);line-height:1.6">Нажмите на сердечко на карточке<br>товара, чтобы сохранить</div>
-    <button class="btn-outline" onclick="nav('catalog')">
-      <svg width="14" height="14"><use href="#ic-grid"/></svg>Перейти в каталог
+    <div class="fav-empty-ic">
+      <svg width="36" height="36"><use href="#ic-heart"/></svg>
+    </div>
+    <div style="font-size:17px;font-weight:700;letter-spacing:.3px">Список пуст</div>
+    <div style="font-size:13px;color:var(--G4);line-height:1.6;max-width:220px">
+      Нажмите ♡ на карточке товара, чтобы сохранить его здесь
+    </div>
+    <button class="hero-cta" style="margin-top:4px" onclick="nav('catalog')">
+      Перейти в каталог
+      <svg width="13" height="13"><use href="#ic-arrow-r"/></svg>
     </button>
   </div>
+
 </div>

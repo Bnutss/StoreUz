@@ -1,52 +1,114 @@
 <div class="page active" id="page-home">
-  <div class="topbar">
-    <div class="logo">Store<span>Uz</span></div>
-    <button class="tb-btn" onclick="nav('catalog')">
-      <svg width="20" height="20"><use href="#ic-search"/></svg>
-    </button>
-  </div>
-  <div class="hero">
-    <div class="hero-inner">
-      <div class="hero-pattern">
-        <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
-          <rect x="0" y="0" width="200" height="200" stroke="white" stroke-width="1"/>
-          <rect x="20" y="20" width="160" height="160" stroke="white" stroke-width=".5"/>
-          <line x1="0" y1="100" x2="200" y2="100" stroke="white" stroke-width=".5"/>
-          <line x1="100" y1="0" x2="100" y2="200" stroke="white" stroke-width=".5"/>
-        </svg>
-      </div>
-      <div class="hero-tag">
-        <svg width="12" height="12"><use href="#ic-star"/></svg>Новая коллекция
-      </div>
-      <div class="hero-title"><strong>Весна</strong> — Лето<br>2025</div>
-      <div class="hero-sub">Скидки до 40% на избранные модели</div>
-      <button class="hero-cta" onclick="nav('catalog')">
-        Смотреть коллекцию
-        <svg width="14" height="14"><use href="#ic-arrow-r"/></svg>
-      </button>
+
+    <!-- Шапка -->
+    <div class="topbar">
+        <div class="logo">Store<span>Uz</span></div>
+        <button class="tb-btn" onclick="nav('catalog')">
+            <svg width="20" height="20">
+                <use href="#ic-search"/>
+            </svg>
+        </button>
     </div>
-  </div>
-  <div class="sec-hdr">
-    <div class="sec-title">Категории</div>
-    <div class="sec-link" onclick="nav('catalog')">Все<svg width="12" height="12"><use href="#ic-chevron-r"/></svg></div>
-  </div>
-  <div class="cats-row" id="home-cats"></div>
-  <div class="chips" id="home-g-chips">
-    <div class="chip on" onclick="homeG('',this)">Все</div>
-    <div class="chip" onclick="homeG('men',this)">Мужское</div>
-    <div class="chip" onclick="homeG('women',this)">Женское</div>
-    <div class="chip" onclick="homeG('children',this)">Детское</div>
-    <div class="chip" onclick="homeG('unisex',this)">Унисекс</div>
-  </div>
-  <div class="sec-hdr">
-    <div class="sec-title">Рекомендуем</div>
-    <div class="sec-link" onclick="nav('catalog')">Все<svg width="12" height="12"><use href="#ic-chevron-r"/></svg></div>
-  </div>
-  <div class="pgrid" id="home-featured"></div>
-  <div class="sec-hdr">
-    <div class="sec-title">Новинки</div>
-    <div class="sec-link" onclick="nav('catalog')">Все<svg width="12" height="12"><use href="#ic-chevron-r"/></svg></div>
-  </div>
-  <div class="pgrid" id="home-new"></div>
-  <div style="height:16px"></div>
+
+    <!-- ══ HERO ══ -->
+    <div class="hero">
+
+        <!-- Левая часть: текст -->
+        <div class="hero-left">
+            <div class="hero-tag">
+                <div class="hero-tag-dot"></div>
+                Новая коллекция
+            </div>
+            <div class="hero-title">
+                <strong>Весна</strong><br>
+                <em>— Лето 2026</em>
+            </div>
+            <div class="hero-sub">Скидки до <span>40%</span> на<br>избранные модели</div>
+            <button class="hero-cta" onclick="nav('catalog')">
+                Смотреть
+                <svg width="13" height="13">
+                    <use href="#ic-arrow-r"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Правая часть: видео -->
+        <div class="hero-right">
+            <video class="hero-media" id="hero-video" autoplay muted loop playsinline>
+                <source src="/static/webapp/hero.mp4" type="video/mp4">
+            </video>
+            <div class="hero-media-ph" id="hero-ph"></div>
+            <div class="hero-orb1"></div>
+            <div class="hero-orb2"></div>
+        </div>
+
+        <!-- Бейдж скидки -->
+        <div class="hero-sale-badge">−40%</div>
+
+    </div>
+
+    <!-- ══ ПРОМО-ПЛАШКИ ══ -->
+    <div class="promo-strip">
+        <div class="promo-card accent"
+             onclick="homeG('women',document.querySelector('#home-g-chips .chip:nth-child(3)'))">
+            <div class="promo-card-label">Хит сезона</div>
+            <div class="promo-card-ttl">Женская<br>коллекция</div>
+        </div>
+        <div class="promo-card" onclick="homeG('men',document.querySelector('#home-g-chips .chip:nth-child(2)'))">
+            <div class="promo-card-label">Мужское</div>
+            <div class="promo-card-ttl">Летний<br>стиль</div>
+        </div>
+        <div class="promo-card" onclick="nav('catalog')">
+            <div class="promo-card-label">Детям</div>
+            <div class="promo-card-ttl">Яркие<br>новинки</div>
+        </div>
+        <div class="promo-card" onclick="nav('catalog')">
+            <div class="promo-card-label">Бесплатно от</div>
+            <div class="promo-card-ttl">500 000<br>сум</div>
+        </div>
+    </div>
+
+    <!-- ══ КАТЕГОРИИ ══ -->
+    <div class="sec-hdr">
+        <div class="sec-title">Категории</div>
+        <div class="sec-link" onclick="nav('catalog')">Все
+            <svg width="12" height="12">
+                <use href="#ic-chevron-r"/>
+            </svg>
+        </div>
+    </div>
+    <div class="cats-row" id="home-cats"></div>
+
+    <!-- ══ ФИЛЬТР ПО ПОЛУ ══ -->
+    <div class="chips" id="home-g-chips">
+        <div class="chip on" onclick="homeG('',this)">Все</div>
+        <div class="chip" onclick="homeG('men',this)">Мужское</div>
+        <div class="chip" onclick="homeG('women',this)">Женское</div>
+        <div class="chip" onclick="homeG('children',this)">Детское</div>
+        <div class="chip" onclick="homeG('unisex',this)">Унисекс</div>
+    </div>
+
+    <!-- ══ РЕКОМЕНДУЕМ ══ -->
+    <div class="sec-hdr">
+        <div class="sec-title">Рекомендуем</div>
+        <div class="sec-link" onclick="nav('catalog')">Все
+            <svg width="12" height="12">
+                <use href="#ic-chevron-r"/>
+            </svg>
+        </div>
+    </div>
+    <div class="pgrid" id="home-featured"></div>
+
+    <!-- ══ НОВИНКИ ══ -->
+    <div class="sec-hdr">
+        <div class="sec-title">Новинки</div>
+        <div class="sec-link" onclick="nav('catalog')">Все
+            <svg width="12" height="12">
+                <use href="#ic-chevron-r"/>
+            </svg>
+        </div>
+    </div>
+    <div class="pgrid" id="home-new"></div>
+
+    <div style="height:20px"></div>
 </div>

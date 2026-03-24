@@ -418,9 +418,24 @@ function togFav(id, el) {
   if (curPage === 'favorites') renderFavs();
 }
 
+let favSortMode = 'default';
+function favSort(mode, el) {
+  favSortMode = mode;
+  document.querySelectorAll('.fav-sort-btn').forEach(b => b.classList.remove('on'));
+  if (el) el.classList.add('on');
+  renderFavs();
+}
 function renderFavs() {
-  const list = products.filter(p => favs.includes(p.id));
-  document.getElementById('fav-empty').style.display = list.length ? 'none' : 'flex';
+  let list = products.filter(p => favs.includes(p.id));
+  if (favSortMode === 'price_asc')  list = [...list].sort((a,b) => (a.discount_price||a.price) - (b.discount_price||b.price));
+  if (favSortMode === 'price_desc') list = [...list].sort((a,b) => (b.discount_price||b.price) - (a.discount_price||a.price));
+  if (favSortMode === 'discount')   list = [...list].filter(p => p.discount_price).concat(list.filter(p => !p.discount_price));
+  const badge   = document.getElementById('fav-count-badge');
+  const sortRow = document.getElementById('fav-sort-row');
+  const empty   = document.getElementById('fav-empty');
+  if (badge)   { badge.textContent = list.length; badge.style.display = list.length ? 'inline-block' : 'none'; }
+  if (sortRow) sortRow.style.display = list.length ? 'flex' : 'none';
+  if (empty)   empty.style.display = list.length ? 'none' : 'flex';
   document.getElementById('fav-grid').innerHTML = list.map(pCard).join('');
 }
 
