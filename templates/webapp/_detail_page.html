@@ -1,0 +1,79 @@
+<!-- ══════════ ПОЛНОЭКРАННАЯ СТРАНИЦА ТОВАРА ══════════ -->
+<div class="det-page" id="det-page">
+
+  <!-- Шапка -->
+  <div class="det-topbar">
+    <button class="det-back" onclick="closeDet()">
+      <svg width="22" height="22"><use href="#ic-chevron-l"/></svg>
+    </button>
+    <div class="det-topbar-ttl" id="det-topbar-ttl"></div>
+    <button class="det-act" id="det-fav-act" onclick="detFav()" style="background:var(--G1);border:none;border-radius:0">
+      <svg width="18" height="18" id="det-fav-ic"><use href="#ic-heart"/></svg>
+    </button>
+  </div>
+
+  <!-- Прокручиваемое тело -->
+  <div class="det-scroll" id="det-scroll">
+
+    <!-- Галерея фотографий -->
+    <div class="det-gallery" id="det-gallery">
+      <div class="det-gallery-track" id="det-gallery-track">
+        <!-- слайды генерируются через JS -->
+      </div>
+      <div class="det-badge-row" id="det-badge-row"></div>
+      <div class="det-gallery-acts">
+        <button class="det-act" onclick="closeDet()">
+          <svg width="16" height="16"><use href="#ic-x"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="det-dots" id="det-dots"></div>
+
+    <!-- Информация -->
+    <div class="det-info">
+      <div class="det-brand" id="det-brand"></div>
+      <div class="det-name" id="det-name"></div>
+      <div class="det-price-row">
+        <div class="det-price" id="det-price"></div>
+        <div class="det-price-old" id="det-price-old"></div>
+      </div>
+      <div class="det-save" id="det-save"></div>
+      <div class="det-stock-bar" id="det-stock-bar">
+        <svg width="8" height="8" id="det-stock-ic"><use href="#ic-dot"/></svg>
+        <span id="det-stock-txt"></span>
+      </div>
+      <div class="det-desc" id="det-desc"></div>
+    </div>
+
+    <!-- Выбор цвета -->
+    <div class="det-sec" id="det-colors-sec" style="display:none">
+      <div class="det-color-row">
+        <div class="det-sec-lbl">Цвет:</div>
+        <div class="det-color-val" id="det-color-val" style="margin-left:8px"></div>
+      </div>
+      <div class="colors-row" id="det-colors"></div>
+    </div>
+
+    <!-- Выбор размера -->
+    <div class="det-sec" id="det-sizes-sec" style="display:none">
+      <div class="det-sec-lbl">Размер</div>
+      <div class="sizes-row" id="det-sizes"></div>
+    </div>
+
+    <div style="height:20px"></div>
+  </div><!-- /det-scroll -->
+
+  <!-- Нижняя панель (всегда видна) -->
+  <div class="det-footer">
+    <div class="qty-ctrl">
+      <button class="qty-b" onclick="chQty(-1)">−</button>
+      <div class="qty-n" id="det-qty">1</div>
+      <button class="qty-b" onclick="chQty(1)">+</button>
+    </div>
+    <button class="btn-add" id="btn-add" onclick="doAdd()" disabled>
+      <svg width="18" height="18"><use href="#ic-bag"/></svg>
+      <span id="btn-add-txt">Выберите вариант</span>
+    </button>
+  </div>
+
+</div>

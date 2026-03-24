@@ -1,0 +1,48 @@
+<!-- ══════════ ФИЛЬТР ══════════ -->
+<div class="overlay" id="flt-ov" onclick="closeFlt()"></div>
+<div class="sheet" id="flt-sheet" style="max-height:84vh">
+  <div class="sheet-pull"></div>
+  <div class="sheet-head">
+    <div class="sheet-ttl">Фильтры</div>
+    <button class="sheet-x" onclick="resetFlt()">Сбросить</button>
+  </div>
+  <div class="sheet-body">
+    <div class="f-grp">
+      <div class="f-grp-ttl">Пол</div>
+      <div class="f-chips" id="flt-g">
+        <div class="chip on" onclick="fG('',this)">Все</div>
+        <div class="chip" onclick="fG('men',this)">Мужское</div>
+        <div class="chip" onclick="fG('women',this)">Женское</div>
+        <div class="chip" onclick="fG('children',this)">Детское</div>
+        <div class="chip" onclick="fG('unisex',this)">Унисекс</div>
+      </div>
+    </div>
+    <div class="f-grp">
+      <div class="f-grp-ttl">Категория</div>
+      <div class="f-chips" id="flt-c"></div>
+    </div>
+    <div class="f-grp">
+      <div class="f-grp-ttl">Цена (сум)</div>
+      <div class="price-row">
+        <div class="p-inp-w">
+          <div class="p-inp-l">От</div>
+          <input class="p-inp" type="number" id="flt-min" placeholder="0">
+        </div>
+        <div class="p-inp-w">
+          <div class="p-inp-l">До</div>
+          <input class="p-inp" type="number" id="flt-max" placeholder="1 000 000">
+        </div>
+      </div>
+    </div>
+    <div class="f-grp">
+      <div class="f-grp-ttl">Наличие</div>
+      <div class="f-chips">
+        <div class="chip" id="flt-stk" onclick="toggleStk(this)">Только в наличии</div>
+      </div>
+    </div>
+    <button class="btn-apply" onclick="applyFlt()">
+      <svg width="16" height="16"><use href="#ic-filter"/></svg>
+      Применить фильтры
+    </button>
+  </div>
+</div>

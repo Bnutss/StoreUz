@@ -1,0 +1,25 @@
+<div class="page" id="page-catalog">
+  <div class="topbar">
+    <div class="logo">Каталог</div>
+  </div>
+  <div class="srch-wrap">
+    <div class="srch-box">
+      <svg width="16" height="16" style="color:var(--G3)"><use href="#ic-search"/></svg>
+      <input id="srch-inp" placeholder="Поиск по названию, бренду..." oninput="srchD()">
+    </div>
+    <button class="filter-btn" onclick="openFlt()">
+      <svg width="18" height="18"><use href="#ic-filter"/></svg>
+    </button>
+  </div>
+  <div class="chips" id="cat-g-chips">
+    <div class="chip on" onclick="catG('',this)">Все</div>
+    <div class="chip" onclick="catG('men',this)">Мужское</div>
+    <div class="chip" onclick="catG('women',this)">Женское</div>
+    <div class="chip" onclick="catG('children',this)">Детское</div>
+    <div class="chip" onclick="catG('unisex',this)">Унисекс</div>
+  </div>
+  <div class="chips" id="cat-c-chips"></div>
+  <div class="res-count" id="res-count"></div>
+  <div class="pgrid" id="cat-grid"></div>
+  <div style="height:16px"></div>
+</div>

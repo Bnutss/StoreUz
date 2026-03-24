@@ -208,10 +208,19 @@ class Order(models.Model):
         ('delivery', 'Доставка'),
     ]
 
+    PAYMENT_CHOICES = [
+        ('cash', 'Наличные'),
+        ('card', 'Карта при получении'),
+        ('payme', 'PayMe'),
+        ('click', 'Click'),
+    ]
+
     user = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, related_name='orders', verbose_name='Пользователь')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name='Статус')
     delivery_type = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='delivery', verbose_name='Тип доставки')
     delivery_address = models.TextField(blank=True, verbose_name='Адрес доставки')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash', verbose_name='Способ оплаты')
+    contact_phone = models.CharField(max_length=20, blank=True, verbose_name='Контактный телефон')
     total_price = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='Итоговая сумма')
     comment = models.TextField(blank=True, verbose_name='Комментарий')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')

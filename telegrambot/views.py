@@ -1,7 +1,9 @@
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.views.decorators.http import require_GET
-from .models import Category, Product, ProductVariant, TelegramUser, Order
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_POST
+from .models import Category, Product, ProductVariant, TelegramUser, Order, OrderItem
 
 
 def webapp_index(request):
@@ -120,3 +122,73 @@ def api_user_orders(request):
             'created_at': o.created_at.strftime('%d.%m.%Y %H:%M'),
         })
     return JsonResponse({'orders': result})
+
+
+@csrf_exempt
+@require_POST
+def api_create_order(request):
+    try:
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'ok': False, 'error': 'Неверный формат данных'}, status=400)
+
+    items = data.get('items', [])
+    if not items:
+        return JsonResponse({'ok': False, 'error': 'Корзина пуста'}, status=400)
+
+    telegram_id = data.get('telegram_id')
+    user = None
+    if telegram_id:
+        try:
+            user = TelegramUser.objects.get(telegram_id=telegram_id)
+        except TelegramUser.DoesNotExist:
+            pass
+
+    order_items_data = []
+    subtotal = 0
+    for item in items:
+        try:
+            variant = ProductVariant.objects.select_related(
+                'product', 'color', 'size'
+            ).get(id=item['variant_id'])
+        except (ProductVariant.DoesNotExist, KeyError):
+            return JsonResponse({'ok': False, 'error': 'Товар не найден'}, status=400)
+
+        price = float(variant.product.actual_price)
+        qty = int(item.get('quantity', 1))
+        subtotal += price * qty
+        order_items_data.append({
+            'variant': variant,
+            'product_name': variant.product.name,
+            'color_name': variant.color.name if variant.color else '',
+            'size_name': variant.size.name if variant.size else '',
+            'price': price,
+            'quantity': qty,
+        })
+
+    delivery_cost = float(data.get('delivery_cost', 0))
+    total = subtotal + delivery_cost
+
+    order = Order.objects.create(
+        user=user,
+        status='new',
+        delivery_type=data.get('delivery_type', 'delivery'),
+        delivery_address=data.get('delivery_address', ''),
+        payment_method=data.get('payment_method', 'cash'),
+        contact_phone=data.get('phone', ''),
+        total_price=total,
+        comment=data.get('comment', ''),
+    )
+
+    for item in order_items_data:
+        OrderItem.objects.create(
+            order=order,
+            variant=item['variant'],
+            product_name=item['product_name'],
+            color_name=item['color_name'],
+            size_name=item['size_name'],
+            price=item['price'],
+            quantity=item['quantity'],
+        )
+
+    return JsonResponse({'ok': True, 'order_id': order.pk})

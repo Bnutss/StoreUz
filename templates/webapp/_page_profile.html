@@ -1,0 +1,49 @@
+<div class="page" id="page-profile">
+  <div class="topbar"><div class="logo">Профиль</div></div>
+  <div class="profile-hero">
+    <div class="profile-av" id="pav"></div>
+    <div>
+      <div class="profile-name" id="pname">Загрузка...</div>
+      <div class="profile-sub" id="psub"></div>
+    </div>
+  </div>
+  <div class="p-stats">
+    <div class="p-stat"><div class="p-stat-n" id="st-o">0</div><div class="p-stat-l">Заказов</div></div>
+    <div class="p-stat"><div class="p-stat-n" id="st-f">0</div><div class="p-stat-l">Избранных</div></div>
+    <div class="p-stat"><div class="p-stat-n" id="st-c">0</div><div class="p-stat-l">В корзине</div></div>
+  </div>
+  <div class="menu-grp-ttl">Мои заказы</div>
+  <div id="orders-list"></div>
+  <div class="menu-grp">
+    <div class="menu-grp-ttl">Покупки</div>
+    <div class="mitem" onclick="nav('favorites')">
+      <div class="mitem-ic"><svg width="18" height="18"><use href="#ic-heart"/></svg></div>
+      <div class="mitem-text"><div class="mitem-ttl">Избранное</div><div class="mitem-sub">Сохранённые товары</div></div>
+      <div class="mitem-arr"><svg width="16" height="16"><use href="#ic-chevron-r"/></svg></div>
+    </div>
+    <div class="mitem" onclick="nav('cart')">
+      <div class="mitem-ic"><svg width="18" height="18"><use href="#ic-bag"/></svg></div>
+      <div class="mitem-text"><div class="mitem-ttl">Корзина</div><div class="mitem-sub">Товары к оформлению</div></div>
+      <div class="mitem-arr"><svg width="16" height="16"><use href="#ic-chevron-r"/></svg></div>
+    </div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-grp-ttl">Помощь</div>
+    <div class="mitem">
+      <div class="mitem-ic"><svg width="18" height="18"><use href="#ic-package"/></svg></div>
+      <div class="mitem-text"><div class="mitem-ttl">Условия доставки</div><div class="mitem-sub">По всему Узбекистану · 1–3 дня</div></div>
+      <div class="mitem-arr"><svg width="16" height="16"><use href="#ic-chevron-r"/></svg></div>
+    </div>
+    <div class="mitem">
+      <div class="mitem-ic"><svg width="18" height="18"><use href="#ic-return"/></svg></div>
+      <div class="mitem-text"><div class="mitem-ttl">Возврат и обмен</div><div class="mitem-sub">В течение 14 дней</div></div>
+      <div class="mitem-arr"><svg width="16" height="16"><use href="#ic-chevron-r"/></svg></div>
+    </div>
+    <div class="mitem">
+      <div class="mitem-ic"><svg width="18" height="18"><use href="#ic-msg"/></svg></div>
+      <div class="mitem-text"><div class="mitem-ttl">Поддержка</div><div class="mitem-sub">Пн–Вс · 9:00–21:00</div></div>
+      <div class="mitem-arr"><svg width="16" height="16"><use href="#ic-chevron-r"/></svg></div>
+    </div>
+  </div>
+  <div style="height:16px"></div>
+</div>
