@@ -190,7 +190,10 @@ class CartItem(models.Model):
 
     @property
     def total_price(self):
-        return self.variant.product.actual_price * self.quantity
+        if not self.variant or not self.variant.product:
+            return 0
+        price = self.variant.product.actual_price
+        return (price or 0) * self.quantity
 
 
 class Order(models.Model):
@@ -253,4 +256,4 @@ class OrderItem(models.Model):
 
     @property
     def total_price(self):
-        return self.price * self.quantity
+        return (self.price or 0) * self.quantity
